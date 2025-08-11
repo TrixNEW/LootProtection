@@ -1,0 +1,6 @@
+name: SukoFactions
+main: trix\lp\Root
+version: 1.0.0-beta
+api: 5.0.0
+author: Trix
+description: Configures how long only a killer can pick up a slain player's loot before others can.

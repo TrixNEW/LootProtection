@@ -1,0 +1,5 @@
+# -- Configuration File --
+
+# Amount of time the protection lasts
+# During this time, only the person who killed the player can pick up their loot
+protection-duration: 5
