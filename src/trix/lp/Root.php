@@ -13,7 +13,7 @@ use trix\lp\tick\LootProtectionTick;
 final class Root extends PluginBase {
     use SingletonTrait;
 
-    public static ?int $duration;
+    public static int $duration;
 
     protected function onLoad(): void {
         self::setInstance($this);
