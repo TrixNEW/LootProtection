@@ -1,4 +1,4 @@
-name: SukoFactions
+name: LootProtection
 main: trix\lp\Root
 version: 1.0.0-beta
 api: 5.0.0
