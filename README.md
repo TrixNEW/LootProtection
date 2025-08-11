@@ -1,4 +1,4 @@
-# Loot Protection (PM5)
+# Loot Protection
 
 A PocketMine-MP 5.x plugin that protects a player's dropped loot from being picked up by others for a configurable duration after they are killed.  
 Perfect for PvP servers to prevent loot swiping.
