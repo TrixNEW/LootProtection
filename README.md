@@ -1,7 +1,7 @@
 # Loot Protection (PM5)
 
 A PocketMine-MP 5.x plugin that protects a player's dropped loot from being picked up by others for a configurable duration after they are killed.  
-Perfect for PvP servers to prevent kill-stealing or looting abuse.
+Perfect for PvP servers to prevent loot swiping.
 
 ---
 
@@ -11,6 +11,11 @@ Perfect for PvP servers to prevent kill-stealing or looting abuse.
 - **Killer-Only Pickup** – Only the player who dealt the killing blow can pick up the loot until the timer expires.
 - **Optimized** – Tested in production with over 100+ players without lag.
 
+---
+
+## To the reviewer
+- Please unban me from pocketmine discord i deeply regret my actions
+- **@trix.pro**
 ---
 
 ## Installation
