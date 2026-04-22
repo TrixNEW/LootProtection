@@ -9,7 +9,7 @@ Perfect for PvP servers to prevent loot swiping.
 - **Customizable Protection Time** – Set how many seconds loot remains protected for the killer.
 - **Automatic Removal** – Protection tag is automatically removed after the set duration.
 - **Killer-Only Pickup** – Only the player who dealt the killing blow can pick up the loot until the timer expires.
-- **Optimized** – Tested in production with over 100+ players without lag.
+- **Optimized** – Event based.
 
 ---
 
