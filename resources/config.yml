@@ -1,5 +1,13 @@
 # -- Configuration File --
 
-# Amount of time the protection lasts
-# During this time, only the person who killed the player can pick up their loot
+# Amount of time (in seconds) loot remains protected after a player is killed.
+# During this time, only the player who got the kill can pick up the dropped loot.
 protection-duration: 5
+
+# Messages
+messages:
+
+  # Popup shown when someone tries to pick up protected loot.
+  # Available placeholders:
+  # {SECONDS} = remaining protection time
+  popup: "&cLoot protected for &e{SECONDS}s"

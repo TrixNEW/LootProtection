@@ -7,7 +7,7 @@ final class LootProtectionCache {
 
     private static array $entries = [];
 
-    public static function add(int $entityId, string $owner, int $expiry): void {
+    public static function add(int $entityId, string $owner, float $expiry): void {
         self::$entries[$entityId] = [$owner, $expiry];
     }
 
@@ -15,17 +15,24 @@ final class LootProtectionCache {
         return isset(self::$entries[$entityId]);
     }
 
-    public static function evaluate(int $entityId, string $playerName): bool {
+    public static function evaluate(int $entityId, string $player): bool {
         [$owner, $expiry] = self::$entries[$entityId];
-        if (time() >= $expiry) {
+
+        if (microtime(true) >= $expiry) {
             unset(self::$entries[$entityId]);
             return true;
         }
-        if ($playerName === $owner) {
+
+        if ($player === $owner) {
             unset(self::$entries[$entityId]);
             return true;
         }
+
         return false;
+    }
+
+    public static function getRemaining(int $entityId): int {
+        return (int) max(1, ceil(self::$entries[$entityId][1] - microtime(true)));
     }
 
     public static function remove(int $entityId): void {
@@ -35,9 +42,12 @@ final class LootProtectionCache {
     public static function parse(string $data): ?array {
         $pos = strpos($data, '--$$$--');
         if ($pos === false) return null;
-        $owner  = substr($data, 0, $pos);
-        $expiry = (int) substr($data, $pos + 7);
+
+        $owner = substr($data, 0, $pos);
+        $expiry = (float) substr($data, $pos + 7);
+
         if ($owner === '' || $expiry <= 0) return null;
+
         return [$owner, $expiry];
     }
 }

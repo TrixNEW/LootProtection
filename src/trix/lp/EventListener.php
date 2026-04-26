@@ -23,12 +23,16 @@ final class EventListener implements Listener {
         if (!($damager instanceof Player)) return;
 
         $drops = $ev->getDrops();
-        if (empty($drops)) return;
+        if ($drops === []) return;
 
-        $value = $damager->getName() . '--$$$--' . (time() + Root::$duration);
+        // use microtime() instead of time() - stupid me..
+        $expiry = microtime(true) + Root::$duration;
+        $value = $damager->getName() . '--$$$--' . $expiry;
+
         foreach ($drops as $drop) {
-            $drop->getNamedTag()->setString('LootProtected', $value);
+            $drop->getNamedTag()->setString("LootProtected", $value);
         }
+
         $ev->setDrops($drops);
     }
 
@@ -36,33 +40,41 @@ final class EventListener implements Listener {
         $player = $ev->getEntity();
         if (!($player instanceof Player)) return;
 
-        $entityId   = $ev->getOrigin()->getId();
-        $playerName = $player->getName();
+        $entityId = $ev->getOrigin()->getId();
+        $name = $player->getName();
 
         if (LootProtectionCache::has($entityId)) {
-            if (!LootProtectionCache::evaluate($entityId, $playerName)) {
+            if (!LootProtectionCache::evaluate($entityId, $name)) {
+                $this->sendPopup($player, LootProtectionCache::getRemaining($entityId));
                 $ev->cancel();
             }
             return;
         }
 
-        $tag = $ev->getItem()->getNamedTag()->getTag('LootProtected');
+        $tag = $ev->getItem()->getNamedTag()->getTag("LootProtected");
         if (!($tag instanceof StringTag)) return;
 
         $parsed = LootProtectionCache::parse($tag->getValue());
         if ($parsed === null) return;
 
         [$owner, $expiry] = $parsed;
-        if (time() >= $expiry) return;
 
-        if ($playerName === $owner) return;
+        if (microtime(true) >= $expiry) return;
+        if ($name === $owner) return;
 
         LootProtectionCache::add($entityId, $owner, $expiry);
+
+        $this->sendPopup($player, LootProtectionCache::getRemaining($entityId));
         $ev->cancel();
     }
 
     public function onDespawn(EntityDespawnEvent $ev): void {
         if (!($ev->getEntity() instanceof ItemEntity)) return;
+
         LootProtectionCache::remove($ev->getEntity()->getId());
+    }
+
+    private function sendPopup(Player $player, int $seconds): void {
+        $player->sendJukeboxPopup(Root::format(Root::$popupMessage, ["SECONDS" => $seconds]));
     }
 }
